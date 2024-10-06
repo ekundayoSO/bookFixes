@@ -19,8 +19,8 @@ class Book
     #[ORM\Column(length: 255)]
     private ?string $author = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $publishingYear = null;
+    #[ORM\Column]
+    private ?int $publishingYear = null;
 
     #[ORM\Column(length: 255)]
     private ?string $genre = null;
@@ -31,13 +31,6 @@ class Book
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(string $id): static
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     public function getTitle(): ?string
@@ -64,12 +57,12 @@ class Book
         return $this;
     }
 
-    public function getPublishingYear(): ?string
+    public function getPublishingYear(): ?int
     {
         return $this->publishingYear;
     }
 
-    public function setPublishingYear(string $publishingYear): static
+    public function setPublishingYear(int $publishingYear): static
     {
         $this->publishingYear = $publishingYear;
 

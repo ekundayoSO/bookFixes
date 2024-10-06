@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\BookRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,7 +49,8 @@ class BookController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $doctrine->getManager()->flush();
+            $doctrine->getManager()
+                ->flush();
 
             return $this->redirectToRoute("book_index");
         }
@@ -60,21 +61,22 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route("/{id}", name: "book_delete", methods: ["DELETE"])]
+    #[Route("/{id}", name: "book_delete", methods: ["POST"])]
     public function delete(Request $request, Book $book, ManagerRegistry $doctrine): Response
     {
-        if ($this->isCsrfTokenValid("delete".$book->getId(), $request->request->get("_token"))) {
+        if ($this->isCsrfTokenValid("delete" . $book->getId(), $request->request->get("_token"))) {
             $entityManager = $doctrine->getManager();
             $entityManager->remove($book);
             $entityManager->flush();
 
+            // Add a flash message to inform the user of the deletion
             $this->addFlash('success', 'The book has been deleted.');
 
+            // Redirect back to the book index page
             return $this->redirectToRoute("book_index");
         }
 
+        // If the CSRF token is not valid, redirect back to the book index page
         return $this->redirectToRoute("book_index");
     }
 }
-
-

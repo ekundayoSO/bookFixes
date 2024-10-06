@@ -1,0 +1,21 @@
+.custom-width {
+    width: 600px;
+}
+
+.position {
+    position: relative;
+}
+
+a {
+    text-decoration: none;
+}
+
+.new-book {
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    padding: 0 6px;
+    border-radius: 6px;
+    background-color: purple;
+    color: #fff;
+}
